@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:layout_weight="3"
+	    android:layout_marginTop="10dip"
+	    android:layout_marginLeft="10dip"
+	    android:layout_marginBottom="10dip"
+	    android:background="@drawable/border" >
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="10dip"
+	        android:text="@string/interface_configuration"
+	        android:layout_gravity="center"
+	        android:textColor="@color/white"
+	        android:textSize="20dip" />
+	    <TableLayout 
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+   	 		android:stretchColumns="1">
+   	 		<TableRow>
+		        <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/select_interface"
+			        android:layout_gravity="center_vertical"
+			        android:layout_marginLeft="5dip"
+			        android:textColor="@color/white"
+			        android:textSize="16dip" />
+			    <Spinner 
+			        android:id="@+id/interface_selector"
+			        android:layout_width="fill_parent"
+        			android:layout_height="wrap_content"
+			        android:layout_marginLeft="7dip"
+			        android:prompt="@string/select_interface_title" android:addStatesFromChildren="true" android:clickable="true"/>
+		    </TableRow>
+		    <TableRow>
+		        <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/select_slave_address"
+			        android:layout_gravity="center_vertical"
+			        android:layout_marginLeft="5dip"
+			        android:textColor="@color/white"
+			        android:textSize="16dip" />
+			    <EditText 
+			        android:id="@+id/slave_address"
+			        android:layout_marginLeft="7dip"
+			        android:maxLength="2"
+			        android:text="@string/default_slave_address"/>
+		    </TableRow>
+	    </TableLayout>
+	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" >
+		    <Button 
+		        android:id="@+id/open_interface"
+		        android:text="@string/open_interface"
+		        android:layout_marginTop="7dip"
+		        android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:enabled="false"/>
+		    <Button 
+		        android:id="@+id/close_interface"
+		        android:text="@string/close_interface"
+		        android:layout_marginTop="7dip"
+				android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:enabled="false"/>
+		</LinearLayout>
+		<TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="10dip"
+	        android:layout_marginTop="25dip"
+	        android:text="@string/interface_actions"
+	        android:layout_gravity="center"
+	        android:textColor="@color/white"
+	        android:textSize="20dip" />
+		<Button 
+	        android:id="@+id/read_button"
+	        android:text="@string/read_data"
+	        android:layout_marginTop="2dip"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:textSize="16dip"
+		    android:enabled="false" />
+		<Button 
+	        android:id="@+id/write_button"
+	        android:text="@string/write_data"
+	        android:layout_marginTop="5dip"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:textSize="16dip"
+		    android:enabled="false" />
+		<Button 
+	        android:id="@+id/erase_button"
+	        android:text="@string/erase_data"
+	        android:layout_marginTop="5dip"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:textSize="16dip"
+		    android:enabled="false" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:layout_weight="2"
+	    android:layout_marginTop="10dip"
+	    android:layout_marginLeft="10dip"
+	    android:layout_marginBottom="10dip"
+	    android:layout_marginRight="10dip"
+	    android:background="@drawable/border" >
+		<TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="10dip"
+	        android:text="@string/eeprom_data"
+	        android:layout_gravity="center"
+	        android:textColor="@color/white"
+	        android:textSize="20dip" />
+	    <ListView
+	       	android:id="@+id/hex_data_list"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"
+			android:drawSelectorOnTop="true"
+			android:paddingRight="10dip"
+			android:paddingLeft="10dip"
+			android:paddingBottom="10dip"
+			android:choiceMode="none"
+			android:background="@color/dark_grey"
+			android:focusable="false" 
+			android:animationCache="true" 
+			android:cacheColorHint="@color/dark_grey"/>
+    </LinearLayout>
+</LinearLayout>
