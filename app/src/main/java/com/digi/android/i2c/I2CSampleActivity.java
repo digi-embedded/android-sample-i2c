@@ -1,4 +1,4 @@
-package com.example.android.i2c;
+package com.digi.android.i2c;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,16 +27,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This application demonstrates the usage of the I2C API by accessing and controlling an I2C
- * slave EEPROM memory. An external I2C EEPROM memory is required to try this sample.
+ * This application demonstrates the usage of the I2C API by accessing and
+ * controlling an I2C slave EEPROM memory. An external I2C EEPROM memory is
+ * required to try this sample.
  *
- * Application allows user to configure I2C interface to use as well as device slave address.
- * Once I2C interface is opened, application has the possibility to read data from the EEPROM
- * memory, write data or erase data. Read results are displayed in an hexadecimal table at the
- * right side of the application.
+ * <p>Application allows user to configure I2C interface to use as well as
+ * device slave address.</p>
  *
+ * <p>Once I2C interface is opened, application has the possibility to read
+ * data from the EEPROM memory, write data or erase data. Read results are
+ * displayed in an hexadecimal table at the right side of the application.</p>
  */
-
 public class I2CSampleActivity extends Activity implements OnClickListener {
 
 	// Constants
@@ -228,7 +229,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
     	for (int i = 0; i < NUM_BYTES; i++)
     		data[i] = (byte)i;
     	if (writeEEPROMData(BASE_ADDRESS, data, PAGE_SIZE))
-    		Toast.makeText(this, "Memory was writen successfully.", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, "Memory was written successfully.", Toast.LENGTH_SHORT).show();
     }
     
     /**

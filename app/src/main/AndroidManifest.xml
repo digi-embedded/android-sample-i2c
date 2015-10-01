@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.i2c"
+    package="com.digi.android.i2c"
     android:versionCode="1"
     android:versionName="1.0" >
 
