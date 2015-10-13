@@ -4,7 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="10" /><application android:icon="@drawable/digi_icon" android:label="@string/app_name">
+    <application
+        android:icon="@drawable/digi_icon"
+        android:label="@string/app_name"
+        android:allowBackup="true">
         <activity android:name=".I2CSampleActivity"
                   android:label="@string/app_name" 
                   android:screenOrientation="landscape"
