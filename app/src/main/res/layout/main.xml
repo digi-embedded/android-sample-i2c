@@ -8,9 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dip"
-        android:layout_marginStart="10dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="3"
         android:background="@drawable/border"
         android:orientation="vertical">
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dip"
+            android:layout_marginBottom="10dp"
             android:text="@string/interface_configuration"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dip"
+                    android:layout_marginStart="5dp"
                     android:text="@string/select_interface"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -44,7 +44,7 @@
                     android:id="@+id/interface_selector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dip"
+                    android:layout_marginStart="7dp"
                     android:addStatesFromChildren="true"
                     android:clickable="true"
                     android:prompt="@string/select_interface_title" />
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dip"
+                    android:layout_marginStart="5dp"
                     android:labelFor="@+id/slave_address"
                     android:text="@string/select_slave_address"
                     android:textColor="@color/white"
@@ -64,7 +64,7 @@
 
                 <EditText
                     android:id="@+id/slave_address"
-                    android:layout_marginStart="7dip"
+                    android:layout_marginStart="7dp"
                     android:inputType="text"
                     android:maxLength="2"
                     android:text="@string/default_slave_address" />
@@ -80,7 +80,7 @@
                 android:id="@+id/open_interface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dip"
+                android:layout_marginTop="7dp"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:text="@string/open_interface" />
@@ -89,7 +89,7 @@
                 android:id="@+id/close_interface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dip"
+                android:layout_marginTop="7dp"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:text="@string/close_interface" />
@@ -99,8 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dip"
-            android:layout_marginTop="25dip"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="25dp"
             android:text="@string/interface_actions"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -109,7 +109,7 @@
             android:id="@+id/read_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dip"
+            android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:enabled="false"
             android:text="@string/read_data"
@@ -119,7 +119,7 @@
             android:id="@+id/write_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:enabled="false"
             android:text="@string/write_data"
@@ -129,7 +129,7 @@
             android:id="@+id/erase_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:enabled="false"
             android:text="@string/erase_data"
@@ -139,10 +139,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="2"
         android:background="@drawable/border"
         android:orientation="vertical">
@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dip"
+            android:layout_marginBottom="10dp"
             android:text="@string/eeprom_data"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -166,8 +166,8 @@
             android:choiceMode="none"
             android:drawSelectorOnTop="true"
             android:focusable="false"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip" />
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
     </LinearLayout>
 </LinearLayout>
