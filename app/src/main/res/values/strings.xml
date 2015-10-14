@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, I2CSampleActivity!</string>
-    <string name="app_name">I2CSample</string>
-    <color name="black">#666666</color>
+    <string name="app_name">I2C Sample</string>
     <string name="select_interface">Select I2C interface:</string>
     <string name="select_slave_address">Select Slave Address:</string>
     <string name="open_interface">Open Interface</string>
@@ -11,12 +9,14 @@
     <string name="read_data">Read EEPROM Data</string>
     <string name="write_data">Write EEPROM Data</string>
     <string name="erase_data">Erase EEPROM Data</string>
-    <color name="white">#FFFFFF</color>
     <string name="interface_configuration">I2C Interface Configuration</string>
     <string name="interface_actions">I2C Interface Actions</string>
     <string name="default_slave_address">50</string>
     <string name="eeprom_data">EEPROM Memory Data</string>
     <string name="select_interface_title">Select I2C Interface from the list</string>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#666666</color>
     <color name="dark_grey">#4b4b4b</color>
 
 </resources>

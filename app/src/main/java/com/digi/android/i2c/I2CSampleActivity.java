@@ -120,46 +120,6 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			openInterfaceButton.requestFocusFromTouch();
 		}
 	}
-
-	public class HexRow {
-
-		private final int id;
-		private final byte[] hexData;
-
-		public HexRow(int id, byte[] hexData) {
-			this.id = id;
-			this.hexData = hexData;
-		}
-
-		public String getIdString() {
-			String value = "" + (id * 8);
-			if (value.length() < 3) {
-				int diff = 3 -value.length();
-				for (int i = 0; i < diff; i++)
-					value = "0" + value;
-			}
-			return value + " | ";
-		}
-
-		public String getHexDataString() {
-			String value = "";
-			if (hexData == null) return "";
-			for (byte aHexData : hexData) {
-				try {
-					value += getHexString(new byte[]{aHexData}) + " ";
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			return value + "|";
-		}
-
-		public String getAsciiString() {
-			if (hexData == null)
-				return "";
-			return new String(hexData);
-		}
-	}
 	
 	/**
 	 * Initializes all UI elements and sets required listeners.
@@ -192,8 +152,11 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		writeDataButton.setOnClickListener(this);
 		eraseDataButton.setOnClickListener(this);
 		slaveAddressText.addTextChangedListener(new TextWatcher() {
+			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override
 			public void afterTextChanged(Editable s) {
 				validatePage();
 			}
@@ -413,7 +376,8 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 */
 	private static String getHexString(byte[] data) {
 		String result = "";
-		for (byte aData : data) result += Integer.toString((aData & 0xff) + 0x100, 16).substring(1);
+		for (byte aData : data)
+			result += Integer.toString((aData & 0xff) + 0x100, 16).substring(1);
 		return result.toUpperCase();
 	}
 	
@@ -430,11 +394,50 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 				(byte)(value >>> 8),
 				(byte)value};
 	}
+
+	public class HexRow {
+		private final int id;
+		private final byte[] hexData;
+
+		public HexRow(int id, byte[] hexData) {
+			this.id = id;
+			this.hexData = hexData;
+		}
+
+		public String getIdString() {
+			String value = "" + (id * 8);
+			if (value.length() < 3) {
+				int diff = 3 -value.length();
+				for (int i = 0; i < diff; i++)
+					value = "0" + value;
+			}
+			return value + " | ";
+		}
+
+		public String getHexDataString() {
+			String value = "";
+			if (hexData == null) return "";
+			for (byte aHexData : hexData) {
+				try {
+					value += getHexString(new byte[]{aHexData}) + " ";
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return value + "|";
+		}
+
+		public String getAsciiString() {
+			if (hexData == null)
+				return "";
+			return new String(hexData);
+		}
+	}
 	
 	/**
 	 * Populates a ListView with the data contained in the given ArrayList.
 	 */
-	class HexRowsAdapter extends ArrayAdapter<HexRow> {	
+	class HexRowsAdapter extends ArrayAdapter<HexRow> {
 		private final ArrayList<HexRow> hexRows;
 		
 		HexRowsAdapter(Context context, ArrayList<HexRow> items) {

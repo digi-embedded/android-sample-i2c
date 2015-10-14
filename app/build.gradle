@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
-        applicationId "com.example.android.i2c"
+        applicationId "com.digi.android.i2c"
         minSdkVersion 19
         targetSdkVersion 19
     }
