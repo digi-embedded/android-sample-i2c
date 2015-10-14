@@ -13,8 +13,6 @@ To run this example you need:
 * One compatible device to the host application.
 * A USB connection between the device and the host PC in order to transfer and
   launch the application.
-* Establish remote target connection to your Digi hardware before running this
-  application.
 * An external EEPROM memory connected to the I2C port of the development board.
   EEPROM family 24LCXX is recommended.
 
@@ -53,9 +51,6 @@ EEPROM memory. Once connection is established, you can:
 Compatible with
 ---------------
 
-* ConnectCore Wi-i.MX53
-* ConnectCard for i.MX28
-* ConnectCore 6 Adapter Board
 * ConnectCore 6 SBC
 * ConnectCore 6 SBC v2
 
