@@ -1,15 +1,12 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
-
+    compileSdkVersion 22
+    buildToolsVersion '22.1.3'
     defaultConfig {
         applicationId "com.digi.android.i2c"
-        minSdkVersion 19
-        targetSdkVersion 19
+        minSdkVersion 22
+        targetSdkVersion 22
     }
-
     buildTypes {
         release {
             minifyEnabled false

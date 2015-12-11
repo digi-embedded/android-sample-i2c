@@ -20,10 +20,11 @@ import java.util.regex.Pattern;
 import android.app.Activity;
 import android.content.Context;
 import android.i2c.I2C;
-import android.i2c.NoSuchInterfaceException;
+import android.i2c.I2CManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.NoSuchInterfaceException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,17 +73,21 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	private ListView hexDataList;
 	
 	// Variables.
-	private final ArrayList<HexRow> hexRows = new ArrayList<HexRow>();
+	private final ArrayList<HexRow> hexRows = new ArrayList<>();
 	
 	private HexRowsAdapter hexRowsAdapter;
-	
+
+	private I2CManager i2cManager;
 	private I2C i2cInterface;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
+		// Get the I2C manager.
+		i2cManager = (I2CManager) getSystemService(I2C_SERVICE);
+
 		initializeUIElements();
 		fillI2CInterfaces();
 		initializeDataList();
@@ -168,11 +173,11 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 * Lists and fills available I2C interfaces.
 	 */
 	private void fillI2CInterfaces() {
-		int[] interfaces = I2C.listInterfaces();
+		int[] interfaces = i2cManager.listInterfaces();
 		String[] interfacesArray = new String[interfaces.length];
 		for (int i = 0; i < interfaces.length; i++)
 			interfacesArray[i] = String.valueOf(interfaces[i]);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, interfacesArray);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, interfacesArray);
 		adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 		interfaceSelector.setAdapter(adapter);
 		if (interfaceSelector.getItemAtPosition(0) != null)
@@ -195,20 +200,15 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 * Attempts to open configured I2C interface.
 	 */
 	private void openInterface() {
-		i2cInterface = new I2C(Integer.valueOf(interfaceSelector.getSelectedItem().toString()), 
+		i2cInterface = i2cManager.createI2C(Integer.valueOf(interfaceSelector.getSelectedItem().toString()),
 				Integer.parseInt(slaveAddressText.getText().toString(), 16));
 		try {
 			i2cInterface.open();
-			Toast.makeText(this, "I2C Interface " + interfaceSelector.getSelectedItem().toString() +
-					" opened with slave address 0x" + slaveAddressText.getText(), Toast.LENGTH_SHORT).show();
-		} catch (NoSuchInterfaceException e) {
-			Toast.makeText(this, "Error opening interface: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		} catch (IOException e) {
+			updateButtons();
+		} catch (NoSuchInterfaceException | IOException e) {
 			Toast.makeText(this, "Error opening interface: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-		updateButtons();
 	}
 	
 	/**
@@ -217,11 +217,15 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	private void closeInterface() {
 		if (i2cInterface == null)
 			return;
-		if (i2cInterface.isInterfaceOpen())
-			i2cInterface.close();
-		Toast.makeText(this, "I2C Interface " + interfaceSelector.getSelectedItem().toString() +
-				" closed.", Toast.LENGTH_SHORT).show();
-		updateButtons();
+		if (i2cInterface.isInterfaceOpen()) {
+			try {
+				i2cInterface.close();
+				updateButtons();
+			} catch (IOException e) {
+				Toast.makeText(this, "Error closing interface: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -253,9 +257,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		} catch (IOException e) {
 			Toast.makeText(this, "Error reading data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
-			return;
 		}
-		Toast.makeText(this, "Memory was read successfully.", Toast.LENGTH_SHORT).show();
 	}
 	
 	/**
@@ -271,8 +273,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		byte[] data = new byte[NUM_BYTES];
 		for (int i = 0; i < NUM_BYTES; i++)
 			data[i] = (byte)i;
-		if (writeEEPROMData(data))
-			Toast.makeText(this, "Memory was written successfully.", Toast.LENGTH_SHORT).show();
+		writeEEPROMData(data);
 	}
 	
 	/**
@@ -332,8 +333,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		byte[] data = new byte[NUM_BYTES];
 		for (int i = 0; i < NUM_BYTES; i++)
 			data[i] = (byte)0xFF;
-		if (writeEEPROMData(data))
-			Toast.makeText(this, "Memory was erased successfully.", Toast.LENGTH_SHORT).show();
+		writeEEPROMData(data);
 	}
 	
 	/**
@@ -347,7 +347,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			return;
 		}
 		if (slaveAddressText.isEnabled() && !Pattern.matches(SLAVE_ADDRESS_PATTERN, slaveAddressText.getText())) {
-			Toast.makeText(this, "Invalid I2C slaveAddress", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Invalid I2C slave address", Toast.LENGTH_SHORT).show();
 			openInterfaceButton.setEnabled(false);
 			return;
 		}
@@ -359,13 +359,13 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 * Updates layout buttons depending on current I2C interface status.
 	 */
 	private void updateButtons() {
-		openInterfaceButton.setEnabled(i2cInterface!= null && !i2cInterface.isInterfaceOpen());
-		closeInterfaceButton.setEnabled(i2cInterface!= null && i2cInterface.isInterfaceOpen());
-		readDataButton.setEnabled(i2cInterface!= null && i2cInterface.isInterfaceOpen());
-		writeDataButton.setEnabled(i2cInterface!= null && i2cInterface.isInterfaceOpen());
-		eraseDataButton.setEnabled(i2cInterface!= null && i2cInterface.isInterfaceOpen());
-		interfaceSelector.setEnabled(i2cInterface!= null && !i2cInterface.isInterfaceOpen());
-		slaveAddressText.setEnabled(i2cInterface!= null && !i2cInterface.isInterfaceOpen());
+		openInterfaceButton.setEnabled(i2cInterface != null && !i2cInterface.isInterfaceOpen());
+		closeInterfaceButton.setEnabled(i2cInterface != null && i2cInterface.isInterfaceOpen());
+		readDataButton.setEnabled(i2cInterface != null && i2cInterface.isInterfaceOpen());
+		writeDataButton.setEnabled(i2cInterface != null && i2cInterface.isInterfaceOpen());
+		eraseDataButton.setEnabled(i2cInterface != null && i2cInterface.isInterfaceOpen());
+		interfaceSelector.setEnabled(i2cInterface != null && !i2cInterface.isInterfaceOpen());
+		slaveAddressText.setEnabled(i2cInterface != null && !i2cInterface.isInterfaceOpen());
 	}
 	
 	/**
