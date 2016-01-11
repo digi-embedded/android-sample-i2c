@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 Digi International Inc.,
+ * Copyright (c) 2014-2016 Digi International Inc.,
  * All rights not expressly granted are reserved.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,7 +10,7 @@
  * =======================================================================
  */
 
-package com.digi.android.i2c;
+package com.digi.android.sample.i2c;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,12 +19,9 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
-import android.i2c.I2C;
-import android.i2c.I2CManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.NoSuchInterfaceException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +35,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.digi.android.i2c.I2C;
+import com.digi.android.i2c.I2CManager;
+import com.digi.android.util.NoSuchInterfaceException;
 
 /**
  * I2C sample application.
@@ -86,7 +87,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.main);
 
 		// Get the I2C manager.
-		i2cManager = (I2CManager) getSystemService(I2C_SERVICE);
+		i2cManager = new I2CManager(this);
 
 		initializeUIElements();
 		fillI2CInterfaces();
