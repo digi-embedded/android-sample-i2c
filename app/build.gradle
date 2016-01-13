@@ -3,7 +3,7 @@ android {
     compileSdkVersion 'Digi International:Digi SDK Add-On:22'
     buildToolsVersion '23.0.2'
     defaultConfig {
-        applicationId "com.digi.android.i2c"
+        applicationId "com.digi.android.sample.i2c"
         minSdkVersion 22
         targetSdkVersion 22
     }
