@@ -205,8 +205,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 * Attempts to open configured I2C interface.
 	 */
 	private void openInterface() {
-		i2cInterface = i2cManager.createI2C(Integer.valueOf(interfaceSelector.getSelectedItem().toString()),
-				Integer.parseInt(slaveAddressText.getText().toString(), 16));
+		i2cInterface = i2cManager.createI2C(Integer.valueOf(interfaceSelector.getSelectedItem().toString()));
 		try {
 			i2cInterface.open();
 			updateButtons();
@@ -244,9 +243,10 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		}
 		try {
 			// Set address to read from.
-			i2cInterface.write(new byte[]{intToByteArray(BASE_ADDRESS)[2], intToByteArray(BASE_ADDRESS)[3]});
+			i2cInterface.write(Integer.parseInt(slaveAddressText.getText().toString(), 16),
+					new byte[]{intToByteArray(BASE_ADDRESS)[2], intToByteArray(BASE_ADDRESS)[3]});
 			// Perform data read.
-			byte[] data = i2cInterface.read(NUM_BYTES);
+			byte[] data = i2cInterface.read(Integer.parseInt(slaveAddressText.getText().toString(), 16), NUM_BYTES);
 			// Draw data.
 			hexRows.clear();
 			int id = 0;
@@ -300,7 +300,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 					buffer[0] = intToByteArray(address)[2];
 					buffer[1] = intToByteArray(address)[3];
 					stream.read(buffer, 2, 1);
-					i2cInterface.write(buffer);
+					i2cInterface.write(Integer.parseInt(slaveAddressText.getText().toString(), 16), buffer);
 					address = address + 1;
 					bytesWritten = bytesWritten + 1;
 				} else {
@@ -308,7 +308,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 					buffer[0] = intToByteArray(address)[2];
 					buffer[1] = intToByteArray(address)[3];
 					stream.read(buffer, 2, I2CSampleActivity.PAGE_SIZE);
-					i2cInterface.write(buffer);
+					i2cInterface.write(Integer.parseInt(slaveAddressText.getText().toString(), 16), buffer);
 					address = address + I2CSampleActivity.PAGE_SIZE;
 					bytesWritten = bytesWritten + I2CSampleActivity.PAGE_SIZE;
 				}
