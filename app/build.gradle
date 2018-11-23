@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 'Digi International:SDK Add-On for ConnectCore 6:22'
+    compileSdkVersion 'Digi International:Digi SDK Add-On for Embedded:26'
     buildToolsVersion '28.0.3'
-    
+
     defaultConfig {
         applicationId "com.digi.android.sample.i2c"
         minSdkVersion 22
-        targetSdkVersion 22
+        targetSdkVersion 26
     }
     buildTypes {
         release {
