@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 'Digi International:SDK Add-On for ConnectCore 6:22'
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '28.0.3'
     
     defaultConfig {
         applicationId "com.digi.android.sample.i2c"
