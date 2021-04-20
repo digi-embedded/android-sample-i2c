@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2014-2016, Digi International Inc. <support@digi.com>
+/*
+ * Copyright (c) 2014-2021, Digi International Inc. <support@digi.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -61,30 +61,30 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	private final static int PAGE_SIZE = 32;
 	private final static int HEX_BUF_SIZE = 8;
 	private final static int BASE_ADDRESS = 0x0000;
-	
+
 	private final static String SLAVE_ADDRESS_PATTERN = "[0-9a-fA-F]{1,2}";
-	
+
 	// UI Elements.
 	private Spinner interfaceSelector;
-	
+
 	private EditText slaveAddressText;
-	
+
 	private Button openInterfaceButton;
 	private Button closeInterfaceButton;
 	private Button readDataButton;
 	private Button writeDataButton;
 	private Button eraseDataButton;
-	
+
 	private ListView hexDataList;
-	
+
 	// Variables.
 	private final ArrayList<HexRow> hexRows = new ArrayList<>();
-	
+
 	private HexRowsAdapter hexRowsAdapter;
 
 	private I2CManager i2cManager;
 	private I2C i2cInterface;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,22 +102,17 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// Attend only to touch up events.
-		switch (v.getId()) {
-			case R.id.open_interface:
-				openInterface();
-				break;
-			case R.id.close_interface:
-				closeInterface();
-				break;
-			case R.id.read_button:
-				readData();
-				break;
-			case R.id.write_button:
-				writeData();
-				break;
-			case R.id.erase_button:
-				eraseData();
-				break;
+		int id = v.getId();
+		if (id == R.id.open_interface) {
+			openInterface();
+		} else if (id == R.id.close_interface) {
+			closeInterface();
+		} else if (id == R.id.read_button) {
+			readData();
+		} else if (id == R.id.write_button) {
+			writeData();
+		} else if (id == R.id.erase_button) {
+			eraseData();
 		}
 	}
 
@@ -130,20 +125,20 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			openInterfaceButton.requestFocusFromTouch();
 		}
 	}
-	
+
 	/**
 	 * Initializes all UI elements and sets required listeners.
 	 */
 	private void initializeUIElements() {
 		// Instance elements from layout.
-		interfaceSelector = (Spinner)findViewById(R.id.interface_selector);
-		slaveAddressText = (EditText)findViewById(R.id.slave_address);
-		openInterfaceButton = (Button)findViewById(R.id.open_interface);
-		closeInterfaceButton = (Button)findViewById(R.id.close_interface);
-		readDataButton = (Button)findViewById(R.id.read_button);
-		writeDataButton = (Button)findViewById(R.id.write_button);
-		eraseDataButton = (Button)findViewById(R.id.erase_button);
-		hexDataList = (ListView)findViewById(R.id.hex_data_list);
+		interfaceSelector = findViewById(R.id.interface_selector);
+		slaveAddressText = findViewById(R.id.slave_address);
+		openInterfaceButton = findViewById(R.id.open_interface);
+		closeInterfaceButton = findViewById(R.id.close_interface);
+		readDataButton = findViewById(R.id.read_button);
+		writeDataButton = findViewById(R.id.write_button);
+		eraseDataButton = findViewById(R.id.erase_button);
+		hexDataList = findViewById(R.id.hex_data_list);
 		// Set touch listeners.
 		interfaceSelector.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -173,7 +168,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		});
 		openInterfaceButton.requestFocus();
 	}
-	
+
 	/**
 	 * Lists and fills available I2C interfaces.
 	 */
@@ -188,7 +183,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		if (interfaceSelector.getItemAtPosition(0) != null)
 			interfaceSelector.setSelection(0);
 	}
-	
+
 	/**
 	 * Initializes Hex data dump with null values (nothing has been read yet).
 	 */
@@ -200,12 +195,12 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		hexRowsAdapter = new HexRowsAdapter(this, hexRows);
 		hexDataList.setAdapter(hexRowsAdapter);
 	}
-	
+
 	/**
 	 * Attempts to open configured I2C interface.
 	 */
 	private void openInterface() {
-		i2cInterface = i2cManager.createI2C(Integer.valueOf(interfaceSelector.getSelectedItem().toString()));
+		i2cInterface = i2cManager.createI2C(Integer.parseInt(interfaceSelector.getSelectedItem().toString()));
 		try {
 			i2cInterface.open();
 			updateButtons();
@@ -214,7 +209,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Attempts to close current I2C interface.
 	 */
@@ -231,7 +226,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Reads data from active I2C interface and fills hex data dump.
 	 */
@@ -264,7 +259,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Writes data to the active I2C interface.
 	 */
@@ -280,7 +275,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			data[i] = (byte)i;
 		writeEEPROMData(data);
 	}
-	
+
 	/**
 	 * Special EEPROM algorithm designed to write data in these kind of memories.
 	 *
@@ -313,18 +308,14 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 					bytesWritten = bytesWritten + I2CSampleActivity.PAGE_SIZE;
 				}
 			}
-		} catch (IOException e) {
-			Toast.makeText(this, "Error writing data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-			return false;
-		} catch (InterruptedException e) {
+		} catch (IOException | InterruptedException e) {
 			Toast.makeText(this, "Error writing data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Writes FF data to the active I2C interface.
 	 */
@@ -340,7 +331,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			data[i] = (byte)0xFF;
 		writeEEPROMData(data);
 	}
-	
+
 	/**
 	 * Validates current page I2C values enabling and disabling buttons as required.
 	 */
@@ -359,7 +350,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		slaveAddressText.setEnabled(true);
 		openInterfaceButton.setEnabled(true);
 	}
-	
+
 	/**
 	 * Updates layout buttons depending on current I2C interface status.
 	 */
@@ -372,7 +363,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		interfaceSelector.setEnabled(i2cInterface != null && !i2cInterface.isInterfaceOpen());
 		slaveAddressText.setEnabled(i2cInterface != null && !i2cInterface.isInterfaceOpen());
 	}
-	
+
 	/**
 	 * Retrieves hexadecimal string representation of the given byte array.
 	 * 
@@ -380,12 +371,12 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 	 * @return Hex String of the given byte array.
 	 */
 	private static String getHexString(byte[] data) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (byte aData : data)
-			result += Integer.toString((aData & 0xff) + 0x100, 16).substring(1);
-		return result.toUpperCase();
+			result.append(Integer.toString((aData & 0xff) + 0x100, 16).substring(1));
+		return result.toString().toUpperCase();
 	}
-	
+
 	/**
 	 * Converts the given integer into a byte array.
 	 * 
@@ -400,7 +391,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 				(byte)value};
 	}
 
-	public class HexRow {
+	public static class HexRow {
 		private final int id;
 		private final byte[] hexData;
 
@@ -410,21 +401,21 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		}
 
 		public String getIdString() {
-			String value = "" + (id * 8);
+			StringBuilder value = new StringBuilder("" + (id * 8));
 			if (value.length() < 3) {
 				int diff = 3 -value.length();
 				for (int i = 0; i < diff; i++)
-					value = "0" + value;
+					value.insert(0, "0");
 			}
 			return value + " | ";
 		}
 
 		public String getHexDataString() {
-			String value = "";
+			StringBuilder value = new StringBuilder();
 			if (hexData == null) return "";
 			for (byte aHexData : hexData) {
 				try {
-					value += getHexString(new byte[]{aHexData}) + " ";
+					value.append(getHexString(new byte[]{aHexData})).append(" ");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -438,7 +429,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			return new String(hexData);
 		}
 	}
-	
+
 	/**
 	 * Populates a ListView with the data contained in the given ArrayList.
 	 */
@@ -449,7 +440,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 			super(context, R.layout.hex_row, items);
 			hexRows = items;
 		}
-		
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent){
 			View row = convertView;
@@ -458,9 +449,9 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 				row = inflater.inflate(R.layout.hex_row, parent, false);
 			}
 			HexRow item = hexRows.get(position);
-			TextView rowId = (TextView)row.findViewById(R.id.row_id);
-			TextView hexData = (TextView)row.findViewById(R.id.hex_data);
-			TextView asciiData = (TextView)row.findViewById(R.id.ascii_data);
+			TextView rowId = row.findViewById(R.id.row_id);
+			TextView hexData = row.findViewById(R.id.hex_data);
+			TextView asciiData = row.findViewById(R.id.ascii_data);
 			rowId.setText(item.getIdString());
 			hexData.setText(item.getHexDataString());
 			asciiData.setText(item.getAsciiString());
