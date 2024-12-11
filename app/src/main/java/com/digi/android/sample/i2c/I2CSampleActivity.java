@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021, Digi International Inc. <support@digi.com>
+ * Copyright (c) 2014-2025, Digi International Inc. <support@digi.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,6 +19,7 @@ package com.digi.android.sample.i2c;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
@@ -180,7 +181,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, interfacesArray);
 		adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 		interfaceSelector.setAdapter(adapter);
-		if (interfaceSelector.getItemAtPosition(0) != null)
+		if (interfacesArray.length > 0 && interfaceSelector.getItemAtPosition(0) != null)
 			interfaceSelector.setSelection(0);
 	}
 
@@ -327,8 +328,7 @@ public class I2CSampleActivity extends Activity implements OnClickListener {
 		}
 		// Prepare data to write setting address in first 2 bytes.
 		byte[] data = new byte[NUM_BYTES];
-		for (int i = 0; i < NUM_BYTES; i++)
-			data[i] = (byte)0xFF;
+		Arrays.fill(data, (byte) 0xFF);
 		writeEEPROMData(data);
 	}
 
